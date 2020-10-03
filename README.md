@@ -1,1 +1,1 @@
-# yandex.diplom.backend
+# Яндекс Практикум. Дипломная работа. Backend
