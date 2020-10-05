@@ -16,7 +16,7 @@ npm i
 2. npm run start - запуск сервера
 
 ### Ip сервера 
-130.193.51.167
+178.154.225.23
 
 ### Сайт
 https://praktikum-qwelp.ru/
