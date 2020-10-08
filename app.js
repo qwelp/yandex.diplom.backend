@@ -30,7 +30,8 @@ app.use(cors());
 
 const corsOptions = {
   origin: 'http://localhost:8080',
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  credentials: true
 }
 
 const auth = require('./middlewares/auth');
