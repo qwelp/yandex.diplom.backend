@@ -49,20 +49,20 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signin', cors, celebrate({
+app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8)
   })
-}), login);
+}), cors, login);
 
-app.post('/signup', cors, celebrate({
+app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(3).max(30),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8)
   })
-}), createUser);
+}), cors, createUser);
 
 app.use('/users', auth, usersRouter);
 app.use('/articles', auth, articleRouter);
