@@ -9,6 +9,7 @@ const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 // eslint-disable-next-line no-unused-vars
 const NotFoundError = require('./middlewares/errors/not-found-err');
+const cors = require('cors');
 require('dotenv').config();
 const {
   usersRouter,
@@ -25,9 +26,14 @@ const limiter = require('./config/limiter');
 const { PORT = 3000, JWT_SECRET = configSettings.JWT_SECRET } = process.env;
 
 const app = express();
+app.use(cors());
+
+const corsOptions = {
+  origin: 'http://localhost:8080',
+  optionsSuccessStatus: 200
+}
 
 const auth = require('./middlewares/auth');
-const cors = require('./middlewares/cors');
 
 mongoose.connect(configSettings.mongoServer, {
   useNewUrlParser: true,
@@ -49,20 +55,20 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signin', celebrate({
+app.post('/signin', cors(corsOptions), celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8)
   })
-}), cors, login);
+}), login);
 
-app.post('/signup', celebrate({
+app.post('/signup', cors(corsOptions), celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(3).max(30),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8)
   })
-}), cors, createUser);
+}), createUser);
 
 app.use('/users', auth, usersRouter);
 app.use('/articles', auth, articleRouter);
