@@ -38,14 +38,6 @@ mongoose.connect(configSettings.mongoServer, {
   useFindAndModify: false
 });
 
-app.use(limiter);
-app.use(helmet());
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(requestLogger);
-
 app.use(function(req, res, next) {
   const { origin } = req.headers;
 
@@ -54,7 +46,15 @@ app.use(function(req, res, next) {
   }
 
   next();
-})
+});
+
+app.use(limiter);
+app.use(helmet());
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
