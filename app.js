@@ -28,6 +28,10 @@ const app = express();
 
 const auth = require('./middlewares/auth');
 
+const allowedCors = [
+  'localhost:8080'
+];
+
 mongoose.connect(configSettings.mongoServer, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -41,6 +45,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
+
+app.use(function(req, res, next) {
+  const { origin } = req.headers;
+
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+})
 
 app.get('/crash-test', () => {
   setTimeout(() => {
