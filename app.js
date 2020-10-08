@@ -29,6 +29,7 @@ const app = express();
 const auth = require('./middlewares/auth');
 
 const allowedCors = [
+  'http://localhost:8080',
   'localhost:8080'
 ];
 
@@ -36,16 +37,6 @@ mongoose.connect(configSettings.mongoServer, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false
-});
-
-app.use(function(req, res, next) {
-  const { origin } = req.headers;
-
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-
-  next();
 });
 
 app.use(limiter);
@@ -84,6 +75,16 @@ app.use('/', () => new NotFoundError(configConstants.resourceNotFound));
 
 app.use(errorLogger);
 app.use(errors());
+
+app.use(function(req, res, next) {
+  const { origin } = req.headers;
+
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+});
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
