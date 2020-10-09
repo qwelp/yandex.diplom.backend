@@ -67,7 +67,7 @@ module.exports.createUser = (req, res, next) => {
       })
       .catch((err) => {
         if (err.name === 'MongoError' && err.code === 11000) {
-          next(new Conflict409('Conflict409'));
+          next(new Conflict409(validation.message));
         } else {
           next(new ErrorOnTheClientSide(err.message));
         }
