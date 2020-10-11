@@ -26,12 +26,13 @@ const limiter = require('./config/limiter');
 const { PORT = 3000, JWT_SECRET = configSettings.JWT_SECRET } = process.env;
 
 const app = express();
-app.use(cors());
+
 
 var whitelist = [
   'https://praktikum-qwelp.ru',
   'http://localhost:8080',
   'https://qwelp.github.io',
+  'https://localhost:3000',
   'http://localhost:3000'
 ];
 
@@ -46,6 +47,8 @@ const corsOptions = {
   optionsSuccessStatus: 200,
   credentials: true
 }
+
+app.use(cors(corsOptions));
 
 const auth = require('./middlewares/auth');
 
