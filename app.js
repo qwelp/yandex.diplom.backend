@@ -28,7 +28,7 @@ const { PORT = 3000, JWT_SECRET = configSettings.JWT_SECRET } = process.env;
 const app = express();
 app.use(cors());
 
-var whitelist = ['localhost','http://localhost:8080', 'https://qwelp.github.io']
+var whitelist = ['https://praktikum-qwelp.ru', 'localhost','http://localhost:8080', 'https://qwelp.github.io']
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
