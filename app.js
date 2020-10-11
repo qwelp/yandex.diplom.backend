@@ -38,7 +38,6 @@ const corsOptions = {
     }
   },
   optionsSuccessStatus: 200,
-  methods: "GET,POST,DELETE",
   credentials: true
 }
 
