@@ -38,7 +38,7 @@ const corsOptions = {
     }
   },
   optionsSuccessStatus: 200,
-  credentials: true
+  credentials: 'include'
 }
 
 const auth = require('./middlewares/auth');
