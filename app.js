@@ -28,8 +28,15 @@ const { PORT = 3000, JWT_SECRET = configSettings.JWT_SECRET } = process.env;
 const app = express();
 app.use(cors());
 
+var whitelist = ['http://localhost:8080', 'https://qwelp.github.io']
 const corsOptions = {
-  origin: 'http://localhost:8080',
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   optionsSuccessStatus: 200,
   methods: "GET,POST,DELETE",
   credentials: true
