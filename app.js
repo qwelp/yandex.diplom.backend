@@ -28,7 +28,13 @@ const { PORT = 3000, JWT_SECRET = configSettings.JWT_SECRET } = process.env;
 const app = express();
 app.use(cors());
 
-var whitelist = ['https://praktikum-qwelp.ru', 'localhost','http://localhost:8080', 'https://qwelp.github.io']
+var whitelist = [
+  'https://praktikum-qwelp.ru',
+  'http://localhost:8080',
+  'https://qwelp.github.io',
+  'http://localhost:3000'
+];
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -38,7 +44,7 @@ const corsOptions = {
     }
   },
   optionsSuccessStatus: 200,
-  credentials: 'include'
+  credentials: true
 }
 
 const auth = require('./middlewares/auth');
@@ -46,6 +52,7 @@ const auth = require('./middlewares/auth');
 mongoose.connect(configSettings.mongoServer, {
   useNewUrlParser: true,
   useCreateIndex: true,
+  useUnifiedTopology: true,
   useFindAndModify: false
 });
 
