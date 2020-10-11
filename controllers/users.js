@@ -5,6 +5,8 @@ require('dotenv').config();
 // eslint-disable-next-line no-unused-vars
 const NotFoundError = require('../middlewares/errors/not-found-err');
 // eslint-disable-next-line no-unused-vars
+const NotAuthorizationError = require('../middlewares/errors/not-authorization-err');
+// eslint-disable-next-line no-unused-vars
 const ErrorOnTheClientSide = require('../middlewares/errors/on-the-client-side-err');
 // eslint-disable-next-line no-unused-vars
 const Conflict409 = require('../middlewares/errors/conflict-409');
@@ -27,7 +29,7 @@ module.exports.getUser = (req, res, next) => User
   })
   .catch(next);
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
@@ -40,7 +42,7 @@ module.exports.login = (req, res) => {
       });
     })
     .catch((err) => {
-      res.status(401).send({ message: err.message });
+      next(new NotAuthorizationError('Неправильные почта или пароль'));
     });
 };
 
@@ -67,9 +69,9 @@ module.exports.createUser = (req, res, next) => {
       })
       .catch((err) => {
         if (err.name === 'MongoError' && err.code === 11000) {
-          next(new Conflict409(err.validation.message));
+          next(new Conflict409('ошибка Conflict409'));
         } else {
-          next(new ErrorOnTheClientSide(err.message));
+          next(new ErrorOnTheClientSide());
         }
       });
   }

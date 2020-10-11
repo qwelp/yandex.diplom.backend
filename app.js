@@ -29,7 +29,7 @@ const app = express();
 app.use(cors());
 
 const corsOptions = {
-  origin: 'http://localhost:8080',
+  origin: 'https://qwelp.github.io/yandex.diplom.frontend',
   optionsSuccessStatus: 200,
   credentials: true
 }
@@ -43,7 +43,7 @@ mongoose.connect(configSettings.mongoServer, {
 });
 
 app.use(limiter);
-app.use(helmet());
+//app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
