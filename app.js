@@ -29,7 +29,7 @@ const app = express();
 app.use(cors());
 
 const corsOptions = {
-  origin: 'https://qwelp.github.io/yandex.diplom.frontend',
+  origin: 'https://qwelp.github.io',
   optionsSuccessStatus: 200,
   credentials: true
 }
