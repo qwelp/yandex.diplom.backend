@@ -37,7 +37,7 @@ var whitelist = [
 ];
 
 const corsOptions = {
-  origin: 'https://api.praktikum-qwelp.ru',
+  origin: 'https://praktikum-qwelp.ru',
   optionsSuccessStatus: 200,
   credentials: true
 }
