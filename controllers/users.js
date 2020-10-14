@@ -17,29 +17,15 @@ const configConstants = require('../config/constants');
 // eslint-disable-next-line no-unused-vars
 const { JWT_SECRET = configSettings.JWT_SECRET } = process.env;
 
-// GET Получить пользователя по id
-module.exports.getUser = (req, res, next) => User
-  .findOne({ _id: req.user._id })
-  .then((user) => {
-    if (!user) {
-      throw new NotFoundError(configConstants.noUsersFound);
-    }
-
-    res.send(user);
-  })
-  .catch(next);
-
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
+  let token = '';
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+      token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
       res.cookie('jwt', token, { maxAge: 3600000, httpOnly: true });
-
-      res.send({
-        token: req.cookies.jwt
-      });
+      res.send({ token: token });
     })
     .catch((err) => {
       next(new NotAuthorizationError('Неправильные почта или пароль'));
@@ -76,3 +62,14 @@ module.exports.createUser = (req, res, next) => {
       });
   }
 };
+
+module.exports.getUser = (req, res, next) => User
+  .findOne({ _id: req.user._id })
+  .then((user) => {
+    if (!user) {
+      throw new NotFoundError(configConstants.noUsersFound);
+    }
+
+    res.send(user);
+  })
+  .catch(next);
