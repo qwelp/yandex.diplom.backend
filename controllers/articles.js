@@ -10,7 +10,7 @@ const NotRights = require('../middlewares/errors/not-rights');
 
 // GET Все карточки
 module.exports.getArticles = (req, res, next) => {
-  Article.find({})
+  Article.find({ owner: req.user._id })
     .then((user) => {
       if (!user) {
         throw new ServerError(configConstants.noUsersFound);
@@ -56,15 +56,15 @@ module.exports.createArticle = (req, res, next) => {
 
 // DELETE Удалить карточку
 module.exports.deleteArticle = (req, res, next) => {
-  const { articleId } = req.params;
+  const { id } = req.params;
 
   Article
-    .findOne({ _id: articleId })
+    .findOne({ _id: id })
     .then((article) => {
       if (!article) {
         throw new NotFoundError(configConstants.noCart);
       } else if (String(article.owner) === req.user._id) {
-        Article.deleteOne({ _id: articleId })
+        Article.deleteOne({ _id: id })
           .then(() => {
             res.send({ data: article });
           });

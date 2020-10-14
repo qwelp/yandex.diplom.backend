@@ -27,23 +27,17 @@ const { PORT = 3000, JWT_SECRET = configSettings.JWT_SECRET } = process.env;
 
 const app = express();
 
-
 var whitelist = [
   'https://praktikum-qwelp.ru',
   'http://localhost:8080',
   'https://qwelp.github.io',
   'https://localhost:3000',
-  'http://localhost:3000'
+  'http://localhost:3000',
+  'http://localhost'
 ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
+  origin: 'http://localhost:8080',
   optionsSuccessStatus: 200,
   credentials: true
 }
@@ -73,14 +67,14 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signin', cors(corsOptions), celebrate({
+app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8)
   })
 }), login);
 
-app.post('/signup', cors(corsOptions), celebrate({
+app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(3).max(30),
     email: Joi.string().required().email(),
@@ -98,7 +92,8 @@ app.use(errors());
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  res.status(err.statusCode).send({ message: err.message });
+  const status = err.status || 500;
+  res.status(status).send({ message: err.message });
 });
 
 app.listen(PORT, () => {
