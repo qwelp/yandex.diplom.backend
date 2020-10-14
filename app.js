@@ -17,6 +17,7 @@ const {
   createUser
 } = require('./routes/users.js');
 const articleRouter = require('./routes/articles.js');
+const newsapiRouter = require('./routes/newsapi.js');
 
 const configSettings = require('./config/settings');
 const configConstants = require('./config/constants');
@@ -37,7 +38,8 @@ var whitelist = [
 ];
 
 const corsOptions = {
-  origin: 'https://praktikum-qwelp.ru',
+  //origin: 'https://praktikum-qwelp.ru',
+  origin: 'http://localhost:8080',
   optionsSuccessStatus: 200,
   credentials: true
 }
@@ -84,6 +86,7 @@ app.post('/signup', celebrate({
 
 app.use('/users', auth, usersRouter);
 app.use('/articles', auth, articleRouter);
+app.use('/newsapi', newsapiRouter);
 
 app.use('/', () => new NotFoundError(configConstants.resourceNotFound));
 
