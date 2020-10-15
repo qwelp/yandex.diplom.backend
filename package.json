@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js --mode development",
-    "deploy": "scp -r ./* qwelp@130.193.51.167:/home/qwelp/diplom/"
+    "deploy": "scp -r ./* qwelp@178.154.225.23:/home/qwelp/yandex.diplom.backend/"
   },
   "author": "Бун Владимир",
   "license": "ISC",
