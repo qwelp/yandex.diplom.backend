@@ -5,7 +5,7 @@ module.exports.getArticlesNewsapiOrg = (req, res, next) => {
   const { q } = req.params;
   const url = `https://newsapi.org/v2/everything?q=${q}`;
 
-  newsapi.v2.topHeadlines({
+  newsapi.v2.everything({
     q: q,
     country: 'ru'
   }).then(response => {
