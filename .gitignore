@@ -1,1 +1,6 @@
 .idea
+/node_modules
+.env
+*.log
+link_for_pull_requests.zip
+link_for_pull_requests.txt
